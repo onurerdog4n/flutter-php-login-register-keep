@@ -1,7 +1,3 @@
-<?php
-	$db = mysqli_connect('localhost','lrmobil','9tmf@86Y','lrmobil');
-	if (!$db) {
-		echo "Database connection faild";
-	}
 
-?>
+<?php $db = new Erbilen\Database\BasicDB('localhost', 'lrmobil', 'lrmobil', '9tmf@86Y');
+$db->exec("set names utf8"); ?>

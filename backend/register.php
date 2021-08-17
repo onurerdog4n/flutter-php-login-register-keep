@@ -1,21 +1,37 @@
 <?php
- 	include ("config.php");	
+ 	require_once "BasicDB.php"; 
+	 require_once "config.php"; 
+	 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	$sql = "SELECT username FROM login WHERE username = '".$username."'";
 
-	$result = mysqli_query($db,$sql);
-	$count = mysqli_num_rows($result);
+	$engellemail = $db->select('login')
+        ->where('username', $username)->run();
 
-	if ($count == 1) {
-		echo json_encode("Error");
-	}else{
-		$insert = "INSERT INTO login(username,password)VALUES('".$username."','".$password."')";
-		$query = mysqli_query($db,$insert);
-		if ($query) {
-			echo json_encode("Success");
+		if (strlen(trim($username)) == 0 || strlen(trim($password)) == 0 )
+		{
+			echo json_encode("Error");
+		}else{
+		if ($engellemail)
+        {
+
+			echo json_encode("Error");
+        }
+        else
+        {
+			$kayitol = $db->insert('login')
+                    ->set(array(
+                    'username' => $username,
+                    'password' => $password,
+                    
+                ));
+				if ($kayitol)
+                {
+					echo json_encode("Success");
+				}
 		}
 	}
+
 
 ?>
