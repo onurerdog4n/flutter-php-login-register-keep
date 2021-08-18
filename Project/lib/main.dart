@@ -5,6 +5,7 @@ import 'package:php_mysql_login_register/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'DashBoard.dart';
+import 'page.dart';
 
 void main() async {
   await GetStorage.init();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GetStorage().read("userId") != null ? DashBoard() : MyHomePage(),
+      home: GetStorage().read("userId") != null ? MainPage() : MyHomePage(),
     );
   }
 }
@@ -54,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => DashBoard(),
+          builder: (context) => MainPage(),
         ),
       );
     } else {

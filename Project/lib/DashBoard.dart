@@ -63,7 +63,7 @@ class _MyAppState extends State<DashBoard> {
           child: Text("cıkıs"),
         ),
         appBar: AppBar(
-          title: Text('Flutter ListView'),
+          title: Text('Anasayfa Listview'),
         ),
         body: Center(
           child: FutureBuilder<List<Data>>(
