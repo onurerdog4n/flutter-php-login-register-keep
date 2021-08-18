@@ -3,10 +3,10 @@
 
 require_once "config.php"; 
 
-
+$id = $_GET['userId'];
 
 $data = array();
-    $query = $db->query('SELECT * FROM veriler', PDO::FETCH_ASSOC);
+    $query = $db->query('SELECT * FROM veriler where userId = '. $id .' ', PDO::FETCH_ASSOC);
     foreach($query as $q){
 
         $data[] = $q;
