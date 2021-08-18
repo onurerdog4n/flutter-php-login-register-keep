@@ -1,13 +1,16 @@
 <?php
- 	require_once "BasicDB.php"; 
+
 	 require_once "config.php"; 
 	 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
 
-	$engellemail = $db->select('login')
-        ->where('username', $username)->run();
+	$dogrula = $db->prepare("SELECT * FROM login WHERE username=?  ");
+	$dogrula->Execute([$username]);
+	$engellemail = $dogrula->fetch();
+
+	
 
 		if (strlen(trim($username)) == 0 || strlen(trim($password)) == 0 )
 		{
@@ -20,16 +23,13 @@
         }
         else
         {
-			$kayitol = $db->insert('login')
-                    ->set(array(
-                    'username' => $username,
-                    'password' => $password,
-                    
-                ));
-				if ($kayitol)
-                {
-					echo json_encode("Success");
-				}
+			$query = $db->prepare("INSERT INTO login SET username = ?, password = ?");
+			$insert = $query->execute(array( $username, $password ));
+			if ( $insert ){
+				echo json_encode("Success");
+			}
+
+			
 		}
 	}
 
