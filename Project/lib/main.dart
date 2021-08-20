@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:php_mysql_login_register/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
-import 'DashBoard.dart';
 import 'page.dart';
 
 void main() async {
@@ -45,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //  GetStorage().remove("userId"); //cıkıs
 
     if (data['msg'] == "Success") {
-      GetStorage().write("userId", data['id']); //logın
+      GetStorage().write("userId", data['token_id']); //logın
 
       FlutterToast(context).showToast(
           child: Text(

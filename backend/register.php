@@ -4,9 +4,9 @@
 	 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
-
-
-	$dogrula = $db->prepare("SELECT * FROM login WHERE username=?  ");
+	$token = md5(uniqid(mt_rand(), true));
+	$data = array();
+	$dogrula = $db->prepare("SELECT * FROM uyeler WHERE username=?  ");
 	$dogrula->Execute([$username]);
 	$engellemail = $dogrula->fetch();
 
@@ -23,10 +23,12 @@
         }
         else
         {
-			$query = $db->prepare("INSERT INTO login SET username = ?, password = ?");
-			$insert = $query->execute(array( $username, $password ));
+			$query = $db->prepare("INSERT INTO uyeler SET token_id = ?, username = ?, password = ?");
+			$insert = $query->execute(array( $token, $username, $password ));
 			if ( $insert ){
-				echo json_encode("Success");
+				$data['msg'] = "Success";
+            $data['token_id'] = $token;
+            echo json_encode($data);
 			}
 
 			

@@ -11,9 +11,13 @@ Future<List<Data>> fetchData() async {
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Data.fromJson(data)).toList();
+    if (jsonResponse.length == 0) {
+      throw 'Gösterilecek Veri Yok';
+    } else {
+      return jsonResponse.map((data) => new Data.fromJson(data)).toList();
+    }
   } else {
-    throw Exception('Unexpected error occured!');
+    throw Exception('Veriler çekilirken bir hata oluştu!');
   }
 }
 
@@ -61,9 +65,6 @@ class _MyAppState extends State<DashBoard> {
                 context, MaterialPageRoute(builder: (context) => MyHomePage()));
           },
           child: Text("cıkıs"),
-        ),
-        appBar: AppBar(
-          title: Text('Anasayfa Listview'),
         ),
         body: Center(
           child: FutureBuilder<List<Data>>(

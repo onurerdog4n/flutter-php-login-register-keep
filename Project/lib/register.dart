@@ -2,8 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'DashBoard.dart';
+import 'package:php_mysql_login_register/page.dart';
 import 'main.dart';
+import 'package:get_storage/get_storage.dart';
+
+main() async {
+  await GetStorage.init();
+  runApp(Register());
+}
 
 class Register extends StatefulWidget {
   @override
@@ -21,20 +27,21 @@ class _RegisterState extends State<Register> {
       "password": pass.text,
     });
     var data = json.decode(response.body);
-    if (data == "Error") {
+    if (data['msg'] == "Error") {
       FlutterToast(context).showToast(
           child: Text(
-        'User allready exit!',
+        'Kullanıcı adı kullanılıyor',
         style: TextStyle(fontSize: 25, color: Colors.red),
       ));
     } else {
+      GetStorage().write("userId", data['token_id']);
       FlutterToast(context).showToast(
-          child: Text('Registration Successful',
+          child: Text('Kayıt Başarılı',
               style: TextStyle(fontSize: 25, color: Colors.green)));
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => DashBoard(),
+          builder: (context) => MainPage(),
         ),
       );
     }

@@ -6,9 +6,6 @@ class InsertData extends StatelessWidget {
     return MaterialApp(
       title: 'Defaul Page',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Defaul Page'),
-        ),
         body: const Center(
           child: Text('Hello World'),
         ),

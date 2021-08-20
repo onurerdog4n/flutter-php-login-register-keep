@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:php_mysql_login_register/DashBoard.dart';
 import 'package:php_mysql_login_register/insertdata.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:php_mysql_login_register/main.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -19,6 +21,20 @@ class _Page extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('AppBar Demo'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.exit_to_app),
+              tooltip: 'Çıkış',
+              onPressed: () {
+                GetStorage().remove("userId");
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()));
+              },
+            ),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (i) {
             setState(() {

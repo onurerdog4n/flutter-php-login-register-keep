@@ -7,7 +7,7 @@ require_once "config.php";
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $dogrula = $db->prepare("SELECT * FROM login WHERE username=? AND password=? ");
+        $dogrula = $db->prepare("SELECT * FROM uyeler WHERE username=? AND password=? ");
         $dogrula->Execute([$username, $password]);
         $girisyap = $dogrula->fetch();
 
@@ -15,7 +15,7 @@ require_once "config.php";
     
         if (@$girisyap) {
             $data['msg'] = "Success";
-            $data['id'] = $girisyap['id'];
+            $data['token_id'] = $girisyap['token_id'];
             echo json_encode($data);
         } else {
             $data['msg'] = "error";
