@@ -22,7 +22,7 @@ class _RegisterState extends State<Register> {
 
   Future register() async {
     var url = "https://onurerdogan.com.tr/demo/mobilservis/register.php";
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       "username": user.text,
       "password": pass.text,
     });

@@ -5,9 +5,9 @@ import 'package:php_mysql_login_register/main.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Data>> fetchData() async {
-  final response = await http.get(
+  final response = await http.get(Uri.parse(
       'https://onurerdogan.com.tr/demo/mobilservis/vericek.php?userId=' +
-          GetStorage().read("userId"));
+          GetStorage().read("userId")));
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);

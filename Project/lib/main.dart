@@ -37,8 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   login() async {
     var url = "https://onurerdogan.com.tr/demo/mobilservis/login.php";
-    final res = await http
-        .post(url, body: {"username": user.text, "password": pass.text});
+    final res = await http.post(Uri.parse(url),
+        body: {"username": user.text, "password": pass.text});
     final data = jsonDecode(res.body);
 
     //  GetStorage().remove("userId"); //cıkıs

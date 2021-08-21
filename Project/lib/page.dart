@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:php_mysql_login_register/DashBoard.dart';
 import 'package:php_mysql_login_register/insertdata.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:php_mysql_login_register/limitpage.dart';
 import 'package:php_mysql_login_register/main.dart';
 
 class MainPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _Page extends State<MainPage> {
   List bodyPages = [
     DashBoard(),
     InsertData(),
-    DashBoard(),
+    LPage(),
     DashBoard(),
     DashBoard(),
   ];
