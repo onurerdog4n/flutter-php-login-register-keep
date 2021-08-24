@@ -14,12 +14,13 @@
 
 		if (strlen(trim($username)) == 0 || strlen(trim($password)) == 0 )
 		{
-			echo json_encode("Error");
+			$data['msg'] = "EmptyError";
+			echo json_encode($data);
 		}else{
 		if ($engellemail)
         {
-
-			echo json_encode("Error");
+			$data['msg'] = "Error";
+			echo json_encode($data);
         }
         else
         {

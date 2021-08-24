@@ -29,15 +29,42 @@ class _RegisterState extends State<Register> {
     var data = json.decode(response.body);
     if (data['msg'] == "Error") {
       FlutterToast(context).showToast(
-          child: Text(
-        'Kullanıcı adı kullanılıyor',
-        style: TextStyle(fontSize: 25, color: Colors.red),
+          child: Container(
+        alignment: Alignment.center,
+        color: Colors.red,
+        padding: EdgeInsets.all(10.0),
+        child: new Text(
+          "Kullanıcı adı kullanılıyor",
+          textDirection: TextDirection.ltr,
+          style: TextStyle(color: Colors.white),
+        ),
+      ));
+    } else if (data['msg'] == "EmptyError") {
+      FlutterToast(context).showToast(
+          child: Container(
+        alignment: Alignment.center,
+        color: Colors.red,
+        padding: EdgeInsets.all(10.0),
+        child: new Text(
+          "Kullanıcı adı veya şifre boş bırakılamaz",
+          textDirection: TextDirection.ltr,
+          style: TextStyle(color: Colors.white),
+        ),
       ));
     } else {
       GetStorage().write("userId", data['token_id']);
+
       FlutterToast(context).showToast(
-          child: Text('Kayıt Başarılı',
-              style: TextStyle(fontSize: 25, color: Colors.green)));
+          child: Container(
+        alignment: Alignment.center,
+        color: Colors.green,
+        padding: EdgeInsets.all(10.0),
+        child: new Text(
+          "Kayıt Başarılı",
+          textDirection: TextDirection.ltr,
+          style: TextStyle(color: Colors.white),
+        ),
+      ));
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -47,91 +74,151 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  @override
+  bool _showPassword = false;
+  void _togglevisibility() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Login SignUp',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Container(
-        height: 300,
-        child: Card(
-          color: Colors.amber,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+            child: Column(
+          children: [
+            SizedBox(
+              height: 100,
+            ),
+            Container(
+              width: 50,
+              padding: EdgeInsets.only(bottom: 30),
+              child: Image.asset('assets/youtube.png'),
+            ),
+            Center(
                 child: Text(
-                  'Register',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
+              'Kayıt Ol',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            )),
+            Center(
+              child: Text(
+                'Onur App V1 Kayıt Ol',
+                style: TextStyle(fontSize: 13, color: Colors.grey[600]),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  controller: user,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  controller: pass,
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: MaterialButton(
-                      color: Colors.pink,
-                      child: Text('Register',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      onPressed: () {
-                        register();
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 80, left: 40, right: 40),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new TextFormField(
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Kullanıcı adı boş bırakılamaz';
+                        }
+                        return null;
                       },
+                      decoration: new InputDecoration(
+                        labelText: 'Kullanıcı adı',
+                        border: OutlineInputBorder(),
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 25.0, horizontal: 10.0),
+                      ),
+                      controller: user,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) => FocusScope.of(context)
+                          .nextFocus(), // move focus to next
                     ),
                   ),
-                  Expanded(
-                    child: MaterialButton(
-                      color: Colors.amber[100],
-                      child: Text('Login',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
-                      onPressed: () {
-                        Navigator.pushReplacement(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) => FocusScope.of(context)
+                          .nextFocus(), // move focus to next
+                      obscureText: !_showPassword,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Şifre boş bırakılamaz';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Şifre",
+                        border: OutlineInputBorder(),
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 25.0, horizontal: 10.0),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            _togglevisibility();
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 70,
+                            padding: EdgeInsets.symmetric(vertical: 13),
+                            child: Center(
+                              child: Text(
+                                _showPassword ? "Gizle" : "Göster",
+                                style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      controller: pass,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30)),
+                      // ignore: deprecated_member_use
+                      child: FlatButton(
+                        minWidth: MediaQuery.of(context).size.width,
+                        height: 70,
+                        child: Text('Kayıt Ol'),
+                        color: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        textColor: Colors.white,
+                        onPressed: () {
+                          register();
+                        },
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyHomePage(),
-                          ),
-                        );
-                      },
+                              builder: (context) => MyHomePage()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(30),
+                      child: Text('Zaten üye misin? Giriş Yap'),
                     ),
                   ),
                 ],
-              )
-            ],
-          ),
-        ),
+              ),
+            )
+          ],
+        )),
       ),
     );
   }
